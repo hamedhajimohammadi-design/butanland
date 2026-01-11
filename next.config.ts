@@ -5,11 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'butanland.com', // 👈 دامنه سایت وردپرسی تو
+        hostname: 'api.butanland.com', // 👈 دامنه سایت وردپرسی تو
       },
       {
         protocol: 'https', // برای اطمینان (اگر www دارد)
-        hostname: 'www.butanland.com',
+        hostname: 'www.api.butanland.com',
       }
     ],
   },
