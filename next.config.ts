@@ -1,7 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'butanland.com', // 👈 دامنه سایت وردپرسی تو
+      },
+      {
+        protocol: 'https', // برای اطمینان (اگر www دارد)
+        hostname: 'www.butanland.com',
+      }
+    ],
+  },
 };
 
 export default nextConfig;

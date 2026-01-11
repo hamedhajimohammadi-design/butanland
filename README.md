@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏗️ Butanland Project (بوتان لند)
 
-## Getting Started
+این پروژه یک فروشگاه اینترنتی و پلتفرم آموزشی تخصصی در حوزه سیستم‌های گرمایشی (پکیج، رادیاتور، آبگرمکن) است که با جدیدترین تکنولوژی‌های وب توسعه داده شده است.
 
-First, run the development server:
+## 🛠️ تکنولوژی‌های استفاده شده (Tech Stack)
+
+*   **فریم‌ورک:** Next.js 16.1 (App Router)
+*   **زبان:** TypeScript
+*   **استایل‌دهی:** Tailwind CSS v4
+*   **مدیریت وضعیت (State Management):** Zustand
+*   **فونت:** Vazirmatn (بهینه‌شده با next/font)
+*   **آیکون‌ها:** Lucide React
+*   **انیمیشن:** Framer Motion
+*   **بک‌اند:** WordPress (Headless CMS) با استفاده از GraphQL
+
+## 📂 ساختار پروژه
+
+```
+src/
+├── app/                  # صفحات و روت‌های اصلی برنامه (App Router)
+│   ├── api/              # روت‌های API برای احراز هویت (OTP)
+│   ├── dashboard/        # پنل کاربری (سفارشات، آدرس‌ها و...)
+│   └── product/          # صفحات محصول تکی
+├── components/           # کامپوننت‌های رابط کاربری
+│   ├── layout/           # هدر، فوتر، منوی موبایل و سبد خرید
+│   └── ...
+├── lib/                  # توابع کمکی و تنظیمات API
+│   ├── api.ts            # توابع ارتباط با گراف‌کیوال وردپرس
+│   └── queries.ts        # کوئری‌های GraphQL
+└── store/                # مدیریت وضعیت گلوبال (Zustand)
+    ├── auth-store.ts     # ذخیره اطلاعات کاربر و توکن
+    └── cart-store.ts     # مدیریت سبد خرید
+```
+
+## 🚀 راهنمای راه‌اندازی (Getting Started)
+
+### ۱. پیش‌نیازها
+*   Node.js (نسخه ۱۸ یا بالاتر پیشنهاد می‌شود)
+*   مدیر بسته (npm, pnpm, یا yarn)
+
+### ۲. نصب وابستگی‌ها
+دستور زیر را در ترمینال اجرا کنید:
+
+```bash
+npm install
+# یا
+pnpm install
+```
+
+### ۳. تنظیم متغیرهای محیطی (Environment Variables)
+فایل `.env.local` را در ریشه پروژه بسازید و متغیرهای زیر را تنظیم کنید:
+
+```env
+NEXT_PUBLIC_WORDPRESS_API_URL=https://your-wordpress-site.com/graphql
+```
+*(آدرس API وردپرس خود را جایگزین کنید)*
+
+### ۴. اجرای پروژه
+برای اجرای محیط توسعه:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+سپس آدرس [http://localhost:3000](http://localhost:3000) را در مرورگر باز کنید.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ✨ ویژگی‌های کلیدی
+*   **معماری مدرن:** استفاده از App Router و React Server Components.
+*   **فروشگاه کامل:** قابلیت افزودن به سبد خرید، مشاهده دسته‌بندی‌ها و جستجوی محصولات.
+*   **پنل کاربری:** مدیریت سفارشات و آدرس‌ها.
+*   **وبلاگ:** بخش مجله آموزشی با قابلیت دسته‌بندی.
+*   **احراز هویت:** سیستم ورود با ارسال کد یکبار مصرف (OTP).
+*   **ریسپانسیو:** کاملاً سازگار با موبایل و دسکتاپ (دارای Bottom Navigation در موبایل).
