@@ -11,12 +11,10 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header /> 
       <main className="flex-1 pt-20"> 
          {/* pt-20 to account for fixed header height approx */}
          <ServiceFinderClient />
       </main>
-      <Footer />
     </div>
   )
 }

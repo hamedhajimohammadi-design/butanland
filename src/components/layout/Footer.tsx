@@ -29,7 +29,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-gray-300">
               <li><Link href="/shop" className="hover:text-white transition">فروشگاه قطعات</Link></li>
               <li><Link href="/blog" className="hover:text-white transition">مجله آموزشی</Link></li>
-              <li><Link href="/service" className="hover:text-white transition">درخواست تعمیرکار</Link></li>
+              <li><Link href="/services" className="hover:text-white transition">درخواست تعمیرکار</Link></li>
               <li><Link href="/about" className="hover:text-white transition">درباره ما</Link></li>
               <li><Link href="/contact" className="hover:text-white transition">تماس با ما</Link></li>
             </ul>

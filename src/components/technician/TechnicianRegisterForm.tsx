@@ -13,6 +13,7 @@ export default function TechnicianRegisterForm() {
   // استیت‌های جدید
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [address, setAddress] = useState(""); // اضافه کردن استیت آدرس
   const [isServiceProvider, setIsServiceProvider] = useState(false); // آیا سرویس‌کار هم هست؟
   const [showServiceModal, setShowServiceModal] = useState(false); // نمایش مودال توضیحات
 
@@ -48,6 +49,7 @@ export default function TechnicianRegisterForm() {
         mobile: "...", // از اینپوت
         province: provinceName,
         city: selectedCity,
+        address, // اضافه کردن آدرس به فرم دیتا
         verificationMethod,
         isServiceProvider, // true/false
         // file...
@@ -66,7 +68,7 @@ export default function TechnicianRegisterForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans relative" dir="rtl">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans relative pt-24" dir="rtl">
       
       {/* --- مودال توضیحات سرویس‌کار (Pop-up) --- */}
       {showServiceModal && (
@@ -181,6 +183,20 @@ export default function TechnicianRegisterForm() {
                                 <option key={city.id} value={city.name}>{city.name}</option>
                             ))}
                         </select>
+                    </div>
+                </div>
+
+                {/* --- فیلد آدرس --- */}
+                <div className="space-y-2 md:col-span-2">
+                    <label className="text-sm font-medium text-gray-700">آدرس دقیق</label>
+                    <div className="relative">
+                        <MapPin className="absolute right-3 top-3.5 text-gray-400 w-4 h-4" />
+                        <textarea
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className="w-full pr-9 pl-4 py-3 rounded-xl border border-gray-200 bg-white outline-none focus:border-blue-500 transition h-24"
+                            placeholder="نام خیابان، کوچه، پلاک..."
+                        />
                     </div>
                 </div>
             </div>
