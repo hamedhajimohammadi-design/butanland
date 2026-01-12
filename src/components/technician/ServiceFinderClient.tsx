@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, MapPin, Loader2, X, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import TechnicianCard, { Technician } from './TechnicianCard';
 
 // Dummy cities list for the dropdown
