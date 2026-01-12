@@ -21,6 +21,11 @@ export async function POST(request: Request) {
               firstName
               lastName
               email
+              roles {
+                nodes {
+                  slug
+                }
+              }
             }
           }
         }
@@ -57,12 +62,15 @@ export async function POST(request: Request) {
 
       if (data?.data?.login?.authToken) {
         console.log("✅ لاگین موفقیت‌آمیز بود!");
+        const userRoles = data.data.login.user.roles?.nodes?.map((r: any) => r.slug) || [];
+        
         return NextResponse.json({
           success: true,
           user: {
             user_id: data.data.login.user.databaseId,
             first_name: data.data.login.user.firstName || 'کاربر تست',
             last_name: data.data.login.user.lastName || '',
+            roles: userRoles,
           },
           token: data.data.login.authToken
         });

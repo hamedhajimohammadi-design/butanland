@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Filter, ChevronDown, Plus, LayoutGrid, Loader2 } from 'lucide-react';
+import { ShoppingBag, Filter, ChevronDown, Plus, LayoutGrid, Loader2, X, Check } from 'lucide-react';
 import { useCartStore } from '@/store/cart-store';
 import { loadMoreProducts } from '@/app/actions/product-actions';
 
@@ -36,6 +37,12 @@ export default function CategoryClient({
   const [products, setProducts] = useState(initialProducts);
   const [pageInfo, setPageInfo] = useState<PageInfo>(initialPageInfo);
   const [loading, setLoading] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   console.log("CategoryClient - Page Info:", pageInfo);
   console.log("CategoryClient - Has Next Page:", pageInfo?.hasNextPage);
@@ -73,7 +80,7 @@ export default function CategoryClient({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 pt-24 md:pt-28">
       
       {/* 1. Header Section */}
       <div className="bg-white border-b border-gray-100 px-4 py-6 md:py-10">
@@ -122,7 +129,10 @@ export default function CategoryClient({
         {/* 3. Toolbar (Filter & Sort) */}
         <div className="flex items-center justify-between mb-6 sticky top-20 z-30 bg-gray-50/95 backdrop-blur py-2">
             <div className="flex items-center gap-2">
-                <button className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-xl text-sm font-bold text-gray-700 hover:border-orange-500 transition-colors">
+                <button 
+                  onClick={() => setIsFilterOpen(true)}
+                  className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-xl text-sm font-bold text-gray-700 hover:border-orange-500 transition-colors"
+                >
                     <Filter size={18} />
                     <span>فیلترها</span>
                 </button>
@@ -135,6 +145,58 @@ export default function CategoryClient({
             <span className="text-sm text-gray-500 font-medium">{products.length} کالا</span>
         </div>
 
+        {/* Mobile Filter Drawer */}
+        {mounted && createPortal(
+            <>
+                <div 
+                    className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] transition-opacity duration-300 ${isFilterOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+                    onClick={() => setIsFilterOpen(false)}
+                />
+                <div className={`fixed inset-y-0 right-0 w-80 max-w-[80%] bg-white shadow-2xl z-[70] transform transition-transform duration-300 ease-out flex flex-col ${isFilterOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                    <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+                        <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                            <Filter size={18} className="text-orange-600" /> فیلتر {categoryName}
+                        </h3>
+                        <button onClick={() => setIsFilterOpen(false)} className="p-1 hover:bg-gray-100 rounded-lg text-gray-500">
+                            <X size={20} />
+                        </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-5">
+                       {subcategories.length > 0 ? (
+                           <div className="mb-6">
+                               <h4 className="text-sm font-bold text-gray-800 mb-4">زیرمجموعه‌ها</h4>
+                               <ul className="space-y-2">
+                                   {subcategories.map((sub: any) => (
+                                       <li key={sub.id}>
+                                           <Link 
+                                               href={`/product-category/${sub.slug}`}
+                                               className="flex items-center justify-between p-2 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-700 transition"
+                                           >
+                                               {sub.name}
+                                           </Link>
+                                       </li>
+                                   ))}
+                               </ul>
+                           </div>
+                       ) : (
+                           <div className="text-center text-gray-400 text-sm mt-10">
+                               فیلتری برای این دسته موجود نیست.
+                           </div>
+                       )}
+                    </div>
+                    <div className="p-5 border-t border-gray-100">
+                        <button 
+                            onClick={() => setIsFilterOpen(false)}
+                            className="w-full bg-orange-600 text-white font-bold py-3 rounded-xl hover:bg-orange-700 transition"
+                        >
+                            مشاهده {products.length} محصول
+                        </button>
+                    </div>
+                </div>
+            </>,
+            document.body
+        )}
+
         {/* 4. Products Grid */}
         {products.length > 0 ? (
             <>
@@ -145,9 +207,12 @@ export default function CategoryClient({
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             key={product.id}
-                            className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex flex-col h-full hover:shadow-xl transition-shadow relative group"
+                            className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex flex-col h-full hover:shadow-xl transition-shadow relative group cursor-pointer"
                         >
-                            <Link href={`/product/${product.slug}`} className="block relative aspect-square bg-gray-50 rounded-xl mb-3 overflow-hidden">
+                            {/* Overlay Link - Z-10 */}
+                            <Link href={`/product/${product.slug}`} className="absolute inset-0 z-10" aria-label={product.name} />
+
+                            <div className="relative aspect-square bg-gray-50 rounded-xl mb-3 overflow-hidden">
                             {product.image?.sourceUrl ? (
                                 <Image
                                 src={product.image.sourceUrl}
@@ -161,20 +226,24 @@ export default function CategoryClient({
                                 </div>
                             )}
                             {product.stockStatus !== 'IN_STOCK' && (
-                                <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+                                <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-[5]">
                                     <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded">ناموجود</span>
                                 </div>
                             )}
-                            </Link>
+                            </div>
                             
-                            <div className="flex-1 flex flex-col">
+                            <div className="flex-1 flex flex-col pointer-events-none">
                                 <h4 className="text-[13px] font-bold text-gray-800 line-clamp-2 mb-2 leading-relaxed min-h-[40px]">
-                                    <Link href={`/product/${product.slug}`}>{product.name}</Link>
+                                    {product.name}
                                 </h4>
-                                <div className="flex items-end justify-between mt-auto pt-3 border-t border-gray-50">
+                                <div className="flex items-end justify-between mt-auto pt-3 border-t border-gray-50 relative z-20 pointer-events-auto">
                                     <div className="flex flex-col">
                                         <span className="text-sm font-black text-gray-900">
-                                            {product.price ? product.price : 'تماس بگیرید'}
+                                            {product.price ? (
+                                                <span dangerouslySetInnerHTML={{ __html: product.price }} />
+                                            ) : (
+                                                'تماس بگیرید'
+                                            )}
                                         </span>
                                     </div>
                                     {product.stockStatus === 'IN_STOCK' && (

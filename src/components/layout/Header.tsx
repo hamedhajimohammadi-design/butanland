@@ -12,7 +12,14 @@ export default function Header() {
   const pathname = usePathname();
   
   const { items, toggleCart } = useCartStore();
-  const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
+  
+  // Hydration handling
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const cartCount = mounted ? items.reduce((acc, item) => acc + item.quantity, 0) : 0;
 
   // افکت اسکرول برای تغییر رنگ هدر
   useEffect(() => {
@@ -26,9 +33,12 @@ export default function Header() {
     { name: 'خانه', href: '/' },
     { name: 'فروشگاه', href: '/shop' },
     { name: 'بلاگ آموزش', href: '/blog' },
-    { name: 'خدمات تعمیر', href: '/service' },
+    { name: 'جستجوی تعمیرکار', href: '/services' },
     { name: 'تماس با ما', href: '/contact' },
   ];
+
+  const isHomePage = pathname === '/';
+  const isTransparent = isHomePage && !isScrolled;
 
   return (
     <>
@@ -41,14 +51,14 @@ export default function Header() {
           
           {/* 1. Mobile Menu Button */}
           <button 
-            className="md:hidden text-gray-700 p-2"
+            className={`md:hidden p-2 z-50 backdrop-blur rounded-lg ${isTransparent ? 'text-white bg-white/10' : 'text-gray-700 bg-white/20'}`}
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu size={24} />
           </button>
 
           {/* 2. Logo */}
-          <Link href="/" className="text-2xl font-black text-gray-900 flex items-center gap-1">
+          <Link href="/" className={`text-xl md:text-2xl font-black flex items-center gap-1 z-50 ${isTransparent ? 'text-white' : 'text-gray-900'}`}>
             <span className="text-orange-600">بوتان</span>لند
           </Link>
 
@@ -59,7 +69,7 @@ export default function Header() {
                 key={link.href} 
                 href={link.href}
                 className={`text-sm font-bold transition hover:text-orange-600 ${
-                  pathname === link.href ? 'text-orange-600' : (isScrolled ? 'text-gray-700' : 'text-gray-800')
+                  pathname === link.href ? 'text-orange-600' : (isTransparent ? 'text-white/90 hover:text-white' : 'text-gray-700')
                 }`}
               >
                 {link.name}
@@ -69,13 +79,13 @@ export default function Header() {
 
           {/* 4. Actions (Cart, Search) */}
           <div className="flex items-center gap-3">
-             <Link href="/shop" className={`hidden md:flex items-center justify-center w-10 h-10 rounded-full transition ${isScrolled ? 'bg-gray-100 hover:bg-gray-200 text-gray-600' : 'bg-white/20 hover:bg-white/30 text-gray-800'}`}>
+             <Link href="/shop" className={`hidden md:flex items-center justify-center w-10 h-10 rounded-full transition ${isTransparent ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}>
                <Search size={20} />
              </Link>
              
              <button 
                onClick={toggleCart} 
-               className={`relative flex items-center justify-center w-10 h-10 rounded-full transition ${isScrolled ? 'bg-gray-100 hover:bg-gray-200 text-gray-600' : 'bg-white/20 hover:bg-white/30 text-gray-800'}`}
+               className={`relative flex items-center justify-center w-10 h-10 rounded-full transition ${isTransparent ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}
              >
                <ShoppingCart size={20} />
                {cartCount > 0 && (
@@ -85,7 +95,7 @@ export default function Header() {
                )}
              </button>
 
-             <Link href="/login" className="hidden md:flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-orange-600 transition">
+             <Link href="/login" className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition ${isTransparent ? 'bg-white text-gray-900 hover:bg-orange-600 hover:text-white' : 'bg-gray-900 text-white hover:bg-orange-600'}`}>
                 <User size={16} />
                 ورود / ثبت‌نام
              </Link>

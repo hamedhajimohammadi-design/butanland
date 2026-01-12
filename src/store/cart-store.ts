@@ -29,20 +29,21 @@ export const useCartStore = create<CartState>()(
 
       addItem: (newItem) => set((state) => {
         const existingItem = state.items.find(item => item.id === newItem.id);
+        const qtyToAdd = newItem.quantity > 0 ? newItem.quantity : 1;
         
         if (existingItem) {
           // اگر محصول قبلاً بود، تعدادش را زیاد کن
           return {
             items: state.items.map(item => 
               item.id === newItem.id 
-                ? { ...item, quantity: item.quantity + 1 }
+                ? { ...item, quantity: item.quantity + qtyToAdd }
                 : item
             )
           };
         }
         
         // اگر جدید بود، اضافه‌اش کن
-        return { items: [...state.items, { ...newItem, quantity: 1 }] };
+        return { items: [...state.items, { ...newItem, quantity: qtyToAdd }] };
       }),
 
       removeItem: (id) => set((state) => ({

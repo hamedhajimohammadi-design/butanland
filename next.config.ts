@@ -1,16 +1,22 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.butanland.com', // 👈 دامنه سایت وردپرسی تو
+        hostname: 'api.butanland.com', // دامنه جدید وردپرس
+        pathname: '/**',
       },
       {
-        protocol: 'https', // برای اطمینان (اگر www دارد)
-        hostname: 'www.api.butanland.com',
-      }
+        protocol: 'https',
+        hostname: 'butanland.com', // دامنه قبلی که هنوز در لینک‌ها وجود دارد
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'secure.gravatar.com',
+        pathname: '/**',
+      },
     ],
   },
 };

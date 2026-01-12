@@ -72,23 +72,39 @@ export default function LoginPage() {
       });
       const data = await res.json();
 
-      if (data.success) {
+        if (data.success) {
         // لاگین موفق! دریافت اطلاعات کاربر از وردپرس
         const userData = data.user; 
+        const userRoles = userData.roles || []; // Role array from API
+
+        // Determine primary role for store (since store uses string)
+        let primaryRole = 'customer';
+        if (userRoles.includes('administrator')) primaryRole = 'administrator';
+        else if (userRoles.includes('technician')) primaryRole = 'technician';
         
         // ذخیره در State منیجمنت
         login({
             id: userData.ID || userData.user_id || '0',
-            firstName: userData.first_name || 'کاربر', // اگر نام نداشت، پیش‌فرض می‌گذارد
+            firstName: userData.first_name || 'کاربر',
             lastName: userData.last_name || '',
             phone: phone,
-            role: 'customer' // نقش را می‌توان بعداً دقیق‌تر کرد
+            role: primaryRole 
         }, data.token);
 
-        // اگر نام کاربر خالی بود، شاید بخواهید به مرحله register بفرستید،
-        // اما فعلاً برای سادگی مستقیم وارد داشبورد می‌کنیم.
         alert(`خوش آمدید ${userData.first_name || 'کاربر عزیز'}!`);
-        router.push('/dashboard'); 
+
+        // Routing Logic based on Roles
+        if (userRoles.includes('administrator')) {
+            // Admin redirect
+            window.location.href = '/wp-admin'; 
+        } else if (userRoles.includes('technician')) {
+            // Technician Dashboard
+            router.push('/technician/dashboard');
+        } else {
+            // Customer Dashboard
+            router.push('/dashboard');
+        }
+
       } else {
         alert(data.message || "کد اشتباه است!");
       }
@@ -214,6 +230,18 @@ export default function LoginPage() {
                     </button>
                 </form>
             )}
+
+            {/* --- Callout Box برای همکاران --- */}
+            <div className="mt-8 bg-blue-50 border border-blue-200 rounded-2xl p-4 text-center">
+                <p className="text-blue-800 font-bold mb-1">همکار یا تعمیرکار هستید؟</p>
+                <p className="text-xs text-blue-600 mb-3">برای مشاهده قیمت‌های عمده و پیوستن به باشگاه متخصصین، ثبت‌نام کنید.</p>
+                <button 
+                  onClick={() => router.push('/register')}
+                  className="text-white bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-xl text-sm font-bold shadow-md transition-all w-full"
+                >
+                  ثبت‌نام همکاران
+                </button>
+            </div>
 
         </div>
       </div>

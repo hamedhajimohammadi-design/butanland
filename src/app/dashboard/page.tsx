@@ -8,6 +8,7 @@ import {
   Package, MapPin, LogOut, 
   Settings, Phone, ChevronLeft, Wallet, FileText, Loader2 
 } from 'lucide-react';
+import UpgradeToPartner from '@/components/dashboard/UpgradeToPartner';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -105,11 +106,18 @@ export default function DashboardPage() {
                   {loading ? 'در حال دریافت اطلاعات...' : `خوش آمدی، ${realUserData?.firstName || user?.firstName || 'کاربر'} عزیز 👋`}
                 </p>
             </div>
-            <button onClick={() => { logout(); router.push('/'); }} className="flex items-center gap-2 text-red-500 hover:bg-red-50 px-4 py-2 rounded-xl transition-colors">
+            <button onClick={() => { logout(); router.push('/'); }} className="flex items-center gap-2 text-red-500 bg-red-50 px-4 py-2 rounded-xl hover:bg-red-100 transition">
                 <LogOut size={18} />
-                <span className="hidden md:inline font-bold text-sm">خروج از حساب</span>
+                <span>خروج</span>
             </button>
         </div>
+
+        {/* --- بنر ارتقاء حساب همکار (فقط برای مشتریان عادی) --- */}
+        {user?.role !== 'technician' && user?.role !== 'administrator' && (
+           <div id="upgrade-section">
+             <UpgradeToPartner />
+           </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
@@ -137,6 +145,14 @@ export default function DashboardPage() {
                                 <span className="text-sm font-bold">{item.title}</span>
                             </Link>
                         ))}
+                        
+                        {/* لینک ارتقاء حساب همکار در منو */}
+                        {user?.role !== 'technician' && user?.role !== 'administrator' && (
+                           <button onClick={() => document.getElementById('upgrade-section')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 text-blue-600 hover:text-blue-700 transition-colors group w-full text-right mt-2 border-t pt-4">
+                               <FileText size={20} className="group-hover:scale-110 transition-transform"/>
+                               <span className="text-sm font-bold">ارتقاء به حساب همکار</span>
+                           </button>
+                        )}
                     </nav>
                 </div>
             </div>

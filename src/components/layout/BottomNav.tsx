@@ -10,8 +10,8 @@ import { useEffect, useState } from 'react';
 const navItems = [
   { name: 'خانه', href: '/', icon: Home },
   { name: 'محصولات', href: '/shop', icon: LayoutGrid },
-  { name: 'سبد خرید', href: '/cart', icon: ShoppingCart },
-  { name: 'پروفایل', href: '/profile', icon: User },
+  { name: 'سبد خرید', href: '/checkout', icon: ShoppingCart },
+  { name: 'پروفایل', href: '/dashboard', icon: User },
   { name: 'تماس', href: '/contact', icon: Phone },
 ];
 

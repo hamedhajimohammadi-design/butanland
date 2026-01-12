@@ -39,7 +39,7 @@ export default function ProductClient({ product }: ProductClientProps) {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-24 md:pb-10 font-[family-name:var(--font-vazir)]">
+    <div className="bg-gray-50 min-h-screen pb-24 pt-24 md:pt-28 md:pb-10 font-[family-name:var(--font-vazir)]">
       
       {/* 1. Breadcrumb & Actions (Desktop) */}
       <div className="container mx-auto px-4 py-4 hidden md:flex items-center justify-between text-sm text-gray-500">
@@ -133,7 +133,13 @@ export default function ProductClient({ product }: ProductClientProps) {
                                     <span className="text-gray-400 line-through text-sm">{product.regularPrice}</span>
                                 </div>
                             )}
-                            <div className="text-2xl font-black text-gray-900">{product.price} <span className="text-sm font-normal text-gray-500">تومان</span></div>
+                            <div className="text-2xl font-black text-gray-900">
+                                {product.price ? (
+                                    <span dangerouslySetInnerHTML={{ __html: product.price }} />
+                                ) : (
+                                    <span className="text-sm font-normal text-gray-500">تماس بگیرید</span>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <button 
@@ -189,8 +195,10 @@ export default function ProductClient({ product }: ProductClientProps) {
       <div className="fixed md:hidden bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 z-40 pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
         <div className="flex items-center gap-4">
              <div className="flex-1">
-                 {discount > 0 && <span className="text-xs text-gray-400 line-through block">{product.regularPrice}</span>}
-                 <span className="text-lg font-black text-gray-900">{product.price || 'تماس بگیرید'}</span>
+                 {discount > 0 && <span className="text-xs text-gray-400 line-through block" dangerouslySetInnerHTML={{ __html: product.regularPrice }} />}
+                 <span className="text-lg font-black text-gray-900">
+                    {product.price ? <span dangerouslySetInnerHTML={{ __html: product.price }} /> : 'تماس بگیرید'}
+                 </span>
              </div>
              <button 
                 onClick={handleAddToCart}

@@ -92,7 +92,7 @@ export default async function BlogIndexPage({
     <div className="min-h-screen bg-gray-50 font-sans text-gray-800 pb-20">
       
       {/* --- A. HERO SECTION --- */}
-      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white pt-16 pb-24 px-4 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white pt-32 pb-24 px-4 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600 rounded-full blur-[120px] opacity-20 -mr-20 -mt-20 pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600 rounded-full blur-[100px] opacity-20 -ml-10 -mb-10 pointer-events-none"></div>
 

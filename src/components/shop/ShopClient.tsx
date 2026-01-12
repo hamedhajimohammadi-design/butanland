@@ -77,22 +77,25 @@ export default function ShopClient({
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
         {products.map((product: any) => (
-          <Link key={product.id || product.databaseId} href={`/product/${product.slug}`} className="group bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl hover:border-orange-200 transition duration-300 flex flex-col h-full relative">
+          <div key={product.id || product.databaseId} className="group bg-white border border-gray-200 rounded-xl md:rounded-2xl p-3 md:p-4 hover:shadow-xl hover:border-orange-200 transition duration-300 flex flex-col h-full relative cursor-pointer">
               
+              {/* لینک نامرئی روی کل کارت برای کلیک‌پذیری */}
+              <Link href={`/product/${product.slug}`} className="absolute inset-0 z-10" aria-label={product.name} />
+
               {/* Badge موجودی */}
               {product.stockStatus === 'IN_STOCK' ? (
-                <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-green-50 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full">
+                <div className="absolute top-2 left-2 md:top-3 md:left-3 z-10 flex items-center gap-1 bg-green-50 text-green-700 text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-full pointer-events-none">
                   <CheckCircle size={10} /> موجود
                 </div>
               ) : (
-                <div className="absolute top-3 left-3 z-10 bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-full">
+                <div className="absolute top-2 left-2 md:top-3 md:left-3 z-10 bg-gray-100 text-gray-500 text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-full pointer-events-none">
                   ناموجود
                 </div>
               )}
 
-              <div className="relative aspect-square mb-4 bg-gray-50 rounded-xl overflow-hidden p-4">
+              <div className="relative aspect-square mb-3 md:mb-4 bg-gray-50 rounded-lg md:rounded-xl overflow-hidden p-2 md:p-4">
                 {product.image?.sourceUrl ? (
                   <Image 
                     src={product.image.sourceUrl} 
@@ -101,32 +104,35 @@ export default function ShopClient({
                     className="object-contain group-hover:scale-105 transition duration-500" 
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-300"><ShoppingCart size={32} /></div>
+                  <div className="flex items-center justify-center h-full text-gray-300"><ShoppingCart size={24} /></div>
                 )}
               </div>
 
               <div className="flex flex-col flex-grow">
-                <h2 className="text-sm font-bold text-gray-800 line-clamp-2 mb-2 leading-6 group-hover:text-orange-600 transition">
+                <h2 className="text-xs md:text-sm font-bold text-gray-800 line-clamp-2 mb-2 leading-5 md:leading-6 group-hover:text-orange-600 transition z-0">
                   {product.name}
                 </h2>
                 
-                <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-                  <div className="text-gray-900 font-black text-sm">
+                <div className="mt-auto pt-3 md:pt-4 border-t border-gray-50 flex items-center justify-between relative z-20">
+                  {/* قیمت */}
+                  <div className="text-gray-900 font-black text-xs md:text-sm">
                     {product.price ? (
                       <span dangerouslySetInnerHTML={{ __html: product.price }} />
                     ) : (
-                      <span className="text-xs text-gray-400">تماس بگیرید</span>
+                      <span className="text-[10px] text-gray-400">تماس بگیرید</span>
                     )}
                   </div>
+                  {/* دکمه افزودن - Z-Index بالاتر برای کلیک */}
                   <button 
                     onClick={(e) => handleAddToCart(e, product)}
-                    className="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-orange-600 hover:text-white transition z-20"
+                    className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-orange-600 hover:text-white transition"
+                    title="افزودن به سبد خرید"
                   >
-                    <ShoppingCart size={16} />
+                    <ShoppingCart size={14} className="md:w-4 md:h-4" />
                   </button>
                 </div>
               </div>
-          </Link>
+          </div>
         ))}
       </div>
 

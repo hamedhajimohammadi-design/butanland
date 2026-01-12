@@ -79,7 +79,7 @@ const QUICK_ACCESS = [
   { id: 7, label: 'لیست خطاها', icon: '/icons/error-codes.png', href: '/blog/category/error-codes' },
   
   // 8. درخواست سرویس -> لینک به صفحه خدمات
-  { id: 8, label: 'درخواست سرویس', icon: '/icons/onlineservice.png', href: '/service' },
+  { id: 8, label: 'درخواست سرویس', icon: '/icons/onlineservice.png', href: '/services' },
 ];
 
 export default function HomePageClient({ products = [], posts = [] }: HomePageClientProps) {
@@ -105,7 +105,7 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
     <div className="bg-gray-50 min-h-screen pb-20 font-sans text-gray-800" dir="rtl">
       
       {/* 1. HERO SECTION & SEARCH */}
-      <section className="relative bg-slate-900 text-white pt-12 pb-32 px-4 rounded-b-[3rem] shadow-xl overflow-hidden">
+      <section className="relative bg-slate-900 text-white pt-32 pb-32 px-4 rounded-b-[3rem] shadow-xl overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/20 rounded-full blur-[100px] -mr-32 -mt-32 pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[100px] -ml-20 -mb-20 pointer-events-none"></div>
 
@@ -162,13 +162,16 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
       <section className="container mx-auto px-4 mb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-r from-blue-800 to-slate-800 rounded-3xl p-8 relative overflow-hidden text-white flex flex-col justify-center min-h-[220px] shadow-lg group cursor-pointer hover:shadow-2xl transition duration-300">
+            {/* Overlay Link */}
+            <Link href="/shop?category=wall-mounted-gas-boiler" className="absolute inset-0 z-20" aria-label="پکیج‌های دیواری" />
+            
             <div className="relative z-10 max-w-[65%]">
               <span className="bg-orange-500 text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block shadow-lg shadow-orange-500/30">فروش ویژه</span>
               <h3 className="text-2xl md:text-3xl font-black mb-2">پکیج‌های دیواری</h3>
               <p className="text-sm text-gray-300 mb-6">نمایندگی رسمی فروش و خدمات پس از فروش</p>
-              <Link href="/shop?category=wall-mounted-gas-boiler" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl text-sm font-bold transition-all border border-white/10">
+              <div className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl text-sm font-bold transition-all border border-white/10">
                 مشاهده محصولات <ArrowLeft size={16} />
-              </Link>
+              </div>
             </div>
             {/* تصویر پس‌زمینه بنر */}
             <div className="absolute left-4 bottom-4 w-36 h-36 opacity-90 group-hover:scale-110 transition duration-500 rotate-12 group-hover:rotate-0">
@@ -177,13 +180,16 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
           </div>
 
           <div className="bg-gradient-to-r from-orange-600 to-rose-600 rounded-3xl p-8 relative overflow-hidden text-white flex flex-col justify-center min-h-[220px] shadow-lg group cursor-pointer hover:shadow-2xl transition duration-300">
+            {/* Overlay Link */}
+            <Link href="/shop?category=spare-parts" className="absolute inset-0 z-20" aria-label="برد و قطعات خاص" />
+
             <div className="relative z-10 max-w-[65%]">
               <span className="bg-white/20 text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block border border-white/20">قطعات نایاب</span>
               <h3 className="text-2xl md:text-3xl font-black mb-2">برد و قطعات خاص</h3>
               <p className="text-sm text-orange-100 mb-6">تضمین اصالت برد با گارانتی تعویض بی قید و شرط</p>
-              <Link href="/shop?category=spare-parts" className="inline-flex items-center gap-2 bg-white text-orange-600 px-4 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all shadow-lg">
+              <div className="inline-flex items-center gap-2 bg-white text-orange-600 px-4 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all shadow-lg">
                 خرید قطعه <ArrowLeft size={16} />
-              </Link>
+              </div>
             </div>
              <div className="absolute left-4 bottom-4 w-36 h-36 opacity-90 group-hover:scale-110 transition duration-500 -rotate-12 group-hover:rotate-0">
                <Image src="/icons/spare-parts.png" alt="Parts" fill className="object-contain" />
@@ -219,9 +225,12 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
           >
             {products.map((product) => (
               <SwiperSlide key={product.id}>
-                <div className="bg-white p-4 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:border-orange-100 transition-all duration-300 flex flex-col h-full group relative">
+                <div className="bg-white p-4 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:border-orange-100 transition-all duration-300 flex flex-col h-full group relative cursor-pointer">
                   
-                  <Link href={`/product/${product.slug}`} className="block relative aspect-square bg-gray-50 rounded-2xl mb-4 overflow-hidden p-6 group-hover:bg-orange-50/30 transition-colors">
+                  {/* Overlay Link - Makes whole card clickable */}
+                  <Link href={`/product/${product.slug}`} className="absolute inset-0 z-10" aria-label={product.name} />
+
+                  <div className="relative aspect-square bg-gray-50 rounded-2xl mb-4 overflow-hidden p-6 group-hover:bg-orange-50/30 transition-colors">
                     {product.image?.sourceUrl ? (
                       <Image
                         src={product.image.sourceUrl}
@@ -234,14 +243,14 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
                          <ShoppingBag size={40} opacity={0.3} />
                       </div>
                     )}
-                  </Link>
+                  </div>
 
                   <div className="flex-1 flex flex-col">
-                    <h4 className="text-sm font-bold text-gray-800 line-clamp-2 mb-3 leading-6 min-h-[48px] group-hover:text-orange-600 transition-colors">
-                      <Link href={`/product/${product.slug}`}>{product.name}</Link>
+                    <h4 className="text-sm font-bold text-gray-800 line-clamp-2 mb-3 leading-6 min-h-[48px] group-hover:text-orange-600 transition-colors pointer-events-none">
+                      {product.name}
                     </h4>
                     
-                    <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                    <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between relative z-20">
                       <div className="flex flex-col">
                         <span className="text-base font-black text-gray-900">
                           {product.price ? (
@@ -253,7 +262,7 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
                       </div>
                       <button 
                         onClick={(e) => handleAddToCart(e, product)}
-                        className="w-11 h-11 rounded-2xl bg-gray-900 text-white flex items-center justify-center shadow-lg shadow-gray-200 hover:bg-orange-600 hover:shadow-orange-200 hover:-translate-y-1 transition-all duration-300"
+                        className="w-11 h-11 rounded-2xl bg-gray-900 text-white flex items-center justify-center shadow-lg shadow-gray-200 hover:bg-orange-600 hover:shadow-orange-200 hover:-translate-y-1 transition-all duration-300 pointer-events-auto"
                       >
                         <Plus size={22} />
                       </button>
@@ -284,12 +293,12 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
                با عضویت در باشگاه متخصصین، قطعات را با <strong>قیمت عمده (همکاری)</strong> بخرید، به بانک اطلاعاتی ارورها دسترسی داشته باشید و سفارشات خود را با اولویت ارسال دریافت کنید.
              </p>
              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-               <button className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/50 hover:-translate-y-1">
+               <Link href="/register" className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/50 hover:-translate-y-1 text-center">
                  ثبت نام همکاران
-               </button>
-               <button className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all">
+               </Link>
+               <Link href="/login" className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all text-center">
                  ورود به پنل
-               </button>
+               </Link>
              </div>
           </div>
           <div className="absolute top-0 left-0 w-80 h-80 bg-blue-600 rounded-full blur-[120px] opacity-20 pointer-events-none -ml-20 -mt-20" />
@@ -308,7 +317,9 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {posts.map((post) => (
-             <Link key={post.databaseId} href={`/blog/${post.slug}`} className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 flex flex-col hover:-translate-y-1">
+             <div key={post.databaseId} className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300 flex flex-col hover:-translate-y-1 relative">
+                <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-10" aria-label={post.title} />
+                
                 <div className="relative w-full aspect-[16/10] bg-gray-100 overflow-hidden">
                   {post.featuredImage?.node && (
                     <Image 
@@ -319,20 +330,20 @@ export default function HomePageClient({ products = [], posts = [] }: HomePageCl
                     />
                   )}
                   {/* تاریخ */}
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-lg">
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-lg z-20">
                     {new Date(post.date).toLocaleDateString('fa-IR')}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                   <h3 className="text-lg font-bold text-gray-900 mb-3 leading-snug group-hover:text-orange-600 transition-colors">
+                   <h3 className="text-lg font-bold text-gray-900 mb-3 leading-snug group-hover:text-orange-600 transition-colors pointer-events-none">
                      {post.title}
                    </h3>
                    <div 
-                      className="text-gray-500 text-sm leading-6 line-clamp-2 mt-auto"
+                      className="text-gray-500 text-sm leading-6 line-clamp-2 mt-auto pointer-events-none"
                       dangerouslySetInnerHTML={{ __html: post.excerpt }}
                    />
                 </div>
-             </Link>
+             </div>
           ))}
         </div>
       </section>

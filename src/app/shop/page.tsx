@@ -1,5 +1,6 @@
 import { fetchAPI } from '@/lib/api';
 import ShopClient from '@/components/shop/ShopClient';
+import ShopMobileFilters from '@/components/shop/ShopMobileFilters';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { 
@@ -97,21 +98,21 @@ export default async function ShopPage({
   const isActive = (slug: string) => categorySlug === slug;
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-800 pb-20">
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-800 pb-20 pt-24 md:pt-28">
       
       {/* Header Strip */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-           <h1 className="text-lg font-black text-gray-800 flex items-center gap-2">
-             <LayoutGrid className="text-orange-500" size={20} />
-             {searchQuery ? `جستجو: "${searchQuery}"` : (categorySlug ? `دسته: ${categorySlug.replace('-', ' ')}` : 'فروشگاه محصولات')}
-             <span className="text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full mr-2">{totalFound} کالا</span>
+      <div className="bg-white border-b border-gray-200 sticky top-16 md:top-20 z-30 shadow-sm transition-all">
+        <div className="container mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
+           <h1 className="text-sm md:text-lg font-black text-gray-800 flex items-center gap-2 overflow-hidden">
+             <LayoutGrid className="text-orange-500 shrink-0" size={20} />
+             <span className="truncate">
+               {searchQuery ? `جستجو: "${searchQuery}"` : (categorySlug ? `دسته: ${categorySlug.replace('-', ' ')}` : 'فروشگاه محصولات')}
+             </span>
+             <span className="hidden sm:inline-block text-[10px] md:text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full mr-2 whitespace-nowrap">{totalFound} کالا</span>
            </h1>
            
            {/* Mobile Filter Button (Visible only on mobile) */}
-           <button className="md:hidden flex items-center gap-1 text-sm font-bold text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg">
-             <Filter size={16} /> فیلتر
-           </button>
+           <ShopMobileFilters categories={categories} />
         </div>
       </div>
 
