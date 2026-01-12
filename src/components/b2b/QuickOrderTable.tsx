@@ -162,7 +162,7 @@ export default function QuickOrderTable() {
     });
 
     setProcessing(false);
-    alert('محصولات با موفقیت به سبد خرید اضافه شدند!');
+    toast.success('محصولات با موفقیت به سبد خرید اضافه شدند!');
     toggleCart();
     
     // Optional: Reset form?

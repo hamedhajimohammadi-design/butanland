@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BottomNav from "@/components/layout/BottomNav";
 import CartSidebar from "@/components/layout/CartSidebar";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const vazir = Vazirmatn({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <BottomNav />
         
         <CartSidebar />
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
